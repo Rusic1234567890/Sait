@@ -12,9 +12,14 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-	'authManager'  => [
-        'class'        => 'yii\rbac\DbManager',
-   ],
+	
+        'cart' => [
+            'class' => 'yz\shoppingcart\ShoppingCart',
+            'cartId' => 'my_application_cart',
+       
+    
+],
+ 
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'qebrf123uruiu8rfq2893',
@@ -43,30 +48,25 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+         //   'enablePrettyUrl' => true,
+           // 'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
+        
     ],
     'params' => $params,
 	'modules' => [
     'user' => [
         'class' => 'dektrium\user\Module',
 		 'admins' => ['rusic']
-    ],
-
-'authManager'  => [
-      'class'        => 'yii\rbac\DbManager',
-    //'defaultRoles' => ['guest'],
-    ],
-'modules' => [
-    
+   
+   ],
     'rbac' => 'dektrium\rbac\RbacWebModule',
-    ],
+ 
 ],
 ];
 

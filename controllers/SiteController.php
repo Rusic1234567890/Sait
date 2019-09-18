@@ -9,7 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
-
+use app\models\ProductCartPosition;
+use app\models\Product;
 
 class SiteController extends Controller
 {
@@ -19,17 +20,7 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
+            
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -42,7 +33,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function actions()
+    public function actionsError()
     {
         return [
             'error' => [
@@ -106,6 +97,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+		
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -124,7 +116,19 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
+		if (\Yii::$app->user->can('isAuthor',['post' => $user])){
+			return HttpExeption(403);
+		}
         return $this->render('about');
     }
+	
 
+
+ public function actionPost()
+{
+    if (!\Yii::$app->user->can('post')) {
+        throw new ForbiddenHttpException('Access denied');
+    }
+    return $this->render('post');
+}
 }
